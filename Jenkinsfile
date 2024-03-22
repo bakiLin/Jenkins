@@ -5,10 +5,10 @@ pipeline {
     }
     stages {
         stage('Build') {
-            agent {
-                docker {
-                    image 'python:2-alpine'
-                }
+            agent { 
+                node {
+                    label 'python-agent'
+                    }
             }
             steps {
                 sh 'python -m py_compile source/hello.py'
