@@ -1,38 +1,37 @@
 pipeline {
-    agent { 
-        node {
-            label 'python-agent'
-            }
-      }
-    triggers {
-        pollSCM '* * * * *'
-    }
+    agent none
     stages {
         stage('Build') {
-            steps {
-                echo "Building.."
-                sh '''
-                pip3 install pyinstaller
-                '''
+            agent {
+                docker {
+                    image 'python:2-alpine'
+                }
             }
-        }
-        stage('Test') {
             steps {
-                echo "Testing.."
-                sh '''
-                cd myapp
-                python3 hello.py
-                python3 hello.py --name=Brad
-                '''
+                sh 'python -m py_compile source/hello.py'
+                stash(name: 'compiled-results', includes: 'source/*.py*')
             }
         }
         stage('Deliver') {
-            steps {
-                echo 'Deliver....'
-                sh '''
-                echo "doing delivery stuff.."
-                '''
-            }
+                    agent any
+
+                    environment {
+                        VOLUME = '$(pwd)/source:/src'
+                        IMAGE = 'cdrx/pyinstaller-linux:python2'
+                    }
+                    steps {
+                        dir(path: env.BUILD_ID) {
+                            unstash(name: 'compiled-results')
+
+                            sh "docker run --rm -v ${VOLUME} ${IMAGE} 'pyinstaller -F hello.py'"
+                        }
+                    }
+                    post {
+                        success {
+                            archiveArtifacts "${env.BUILD_ID}/source/dist/hello"
+                            sh "docker run --rm -v ${VOLUME} ${IMAGE} 'rm -rf build dist'"
+                        }
+                    }
         }
     }
 }
