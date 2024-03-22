@@ -1,9 +1,5 @@
 pipeline {
-    agent { 
-        node { 
-            label 'python-agent' 
-        }
-      }
+    agent none
     triggers { 
         pollSCM '* * * * *' 
     }
