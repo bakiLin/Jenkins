@@ -16,19 +16,15 @@ pipeline {
                 '''
             }
         }
-        stage('Test') {
-            steps {
-                echo "Testing.."
-                sh '''
-                echo "doing testing stuff.."
-                '''
-            }
-        }
         stage('Deliver') {
+            agent { 
+                node { 
+                    label 'pyinstaller-agent' 
+                }
+            }
             steps {
-                echo 'Deliver....'
                 sh '''
-                echo "doing delivery stuff.."
+                pyinstaller --onefile source/hello.py
                 '''
             }
         }
