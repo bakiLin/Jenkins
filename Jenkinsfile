@@ -1,10 +1,18 @@
 pipeline {
-    agent any
+    agent none
+    options {
+        skipStagesAfterUnstable()
+    }
     triggers { 
         pollSCM '* * * * *' 
     }
     stages {
         stage('Build') {
+            agent { 
+                node { 
+                    label 'python-agent' 
+                }
+            }
             steps {
                 sh '''
                 python -m py_compile source/hello.py
@@ -12,10 +20,20 @@ pipeline {
             }
         }
         stage('Deliver') {
+            agent { 
+                docker { 
+                    image 'cdrx/pyinstaller-linux:python2' 
+                }
+            }
             steps {
                 sh '''
                 pyinstaller --onefile source/hello.py
                 '''
+            }
+            post {
+                success {
+                    archiveArtifacts 'dist/hello' 
+                }
             }
         }
     }
