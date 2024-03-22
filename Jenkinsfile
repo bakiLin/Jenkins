@@ -8,7 +8,7 @@ pipeline {
         pollSCM '* * * * *' 
     }
     stages {
-        stage('Install') {
+        stage('Build') {
             steps {
                 sh '''
                 pip install pyinstaller
