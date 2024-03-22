@@ -16,12 +16,15 @@ pipeline {
             }
         }
         stage('Deliver') {
-                    agent any
-
-                    environment {
-                        VOLUME = '$(pwd)/source:/src'
-                        IMAGE = 'cdrx/pyinstaller-linux:python2'
+                    agent { 
+                        node {
+                            label 'pyinstaller-agent'
+                        }
                     }
+                    // environment {
+                    //     VOLUME = '$(pwd)/source:/src'
+                    //     IMAGE = 'cdrx/pyinstaller-linux:python2'
+                    // }
                     steps {
                         dir(path: env.BUILD_ID) {
                             unstash(name: 'compiled-results')
