@@ -1,14 +1,14 @@
 pipeline {
-    agent { 
-        node { 
-            label 'python-agent' 
-        }
-      }
     triggers { 
         pollSCM '* * * * *' 
     }
     stages {
         stage('Build') {
+            agent { 
+                node { 
+                    label 'python-agent' 
+                }
+            }
             steps {
                 sh '''
                 python -m py_compile source/hello.py
