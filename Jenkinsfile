@@ -4,27 +4,23 @@ pipeline {
         pollSCM '* * * * *'
     }
     stages {
-        // stage('Build') {
-        //     agent { 
-        //         node {
-        //             label 'python-agent'
-        //             }
-        //     }
-        //     steps {
-        //         sh 'python -m py_compile source/hello.py'
-        //         stash(name: 'compiled-results', includes: 'source/*.py*')
-        //     }
-        // }
+        stage('Build') {
+            agent { 
+                node {
+                    label 'python-agent'
+                    }
+            }
+            steps {
+                sh 'python -m py_compile source/hello.py'
+                stash(name: 'compiled-results', includes: 'source/*.py*')
+            }
+        }
         stage('Deliver') {
                     agent { 
-                        node {
-                            label 'pyinstaller-agent'
+                        docker {
+                            image 'cdrx/pyinstaller-linux:python2'
                         }
                     }
-                    // environment {
-                    //     VOLUME = '$(pwd)/source:/src'
-                    //     IMAGE = 'cdrx/pyinstaller-linux:python2'
-                    // }
                     steps {
                         dir(path: env.BUILD_ID) {
                             unstash(name: 'compiled-results')
