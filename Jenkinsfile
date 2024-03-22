@@ -19,6 +19,18 @@ pipeline {
                 '''
             }
         }
+        stage('Test') {
+            agent { 
+                node { 
+                    label 'python-agent' 
+                }
+            }
+            steps {
+                sh '''
+                sleep 10s
+                '''
+            }
+        }
         stage('Deliver') {
             agent { 
                 docker { 
