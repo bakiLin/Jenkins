@@ -12,7 +12,7 @@ pipeline {
             steps {
                 echo "Building.."
                 sh '''
-                pip install pyinstaller
+                pip3 install pyinstaller
                 '''
             }
         }
