@@ -4,17 +4,17 @@ pipeline {
         pollSCM '* * * * *'
     }
     stages {
-        stage('Build') {
-            agent { 
-                node {
-                    label 'python-agent'
-                    }
-            }
-            steps {
-                sh 'python -m py_compile source/hello.py'
-                stash(name: 'compiled-results', includes: 'source/*.py*')
-            }
-        }
+        // stage('Build') {
+        //     agent { 
+        //         node {
+        //             label 'python-agent'
+        //             }
+        //     }
+        //     steps {
+        //         sh 'python -m py_compile source/hello.py'
+        //         stash(name: 'compiled-results', includes: 'source/*.py*')
+        //     }
+        // }
         stage('Deliver') {
                     agent { 
                         node {
