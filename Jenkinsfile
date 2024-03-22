@@ -1,52 +1,21 @@
 pipeline {
-    agent none
-    options {
-        skipStagesAfterUnstable()
+    agent { 
+        node { 
+            label 'python-agent' 
+        }
     }
     triggers { 
         pollSCM '* * * * *' 
     }
+    environment {
+        HOME = "${env.WORKSPACE}"
+    }
     stages {
-        stage('Build') {
-            agent { 
-                node { 
-                    label 'python-agent' 
-                }
-            }
+        stage('Install') {
             steps {
                 sh '''
-                python -m py_compile source/hello.py
+                pip install pyinstaller
                 '''
             }
-        }
-        stage('Test') {
-            agent { 
-                node { 
-                    label 'python-agent' 
-                }
-            }
-            steps {
-                sh '''
-                sleep 10s
-                '''
-            }
-        }
-        stage('Deliver') {
-            agent { 
-                docker { 
-                    image 'cdrx/pyinstaller-linux:python2' 
-                }
-            }
-            steps {
-                sh '''
-                pyinstaller --onefile source/hello.py
-                '''
-            }
-            post {
-                success {
-                    archiveArtifacts 'dist/hello' 
-                }
-            }
-        }
     }
 }
