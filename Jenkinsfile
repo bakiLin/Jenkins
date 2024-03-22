@@ -10,12 +10,8 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo "Building.."
                 sh '''
-                cd app
-                python3 -m venv .venv
-                source .venv/Scripts/activate
-                python3 -m pip install -r requirements.txt
+                python -m py_compile source/hello.py
                 '''
             }
         }
@@ -23,8 +19,7 @@ pipeline {
             steps {
                 echo "Testing.."
                 sh '''
-                cd python
-                pyinstaller hello.py --onefile
+                echo "doing testing stuff.."
                 '''
             }
         }
