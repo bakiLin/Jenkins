@@ -12,7 +12,7 @@ pipeline {
             steps {
                 echo "Building.."
                 sh '''
-                echo "doing build stuff.."
+                pip install pyinstaller
                 '''
             }
         }
@@ -20,7 +20,8 @@ pipeline {
             steps {
                 echo "Testing.."
                 sh '''
-                echo "doing test stuff.."
+                cd python
+                pyinstaller hello.py --onefile
                 '''
             }
         }
