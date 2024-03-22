@@ -18,8 +18,8 @@ pipeline {
         }
         stage('Deliver') {
             agent { 
-                node { 
-                    label 'pyinstaller-agent' 
+                docker { 
+                    image 'cdrx/pyinstaller-linux:python3' 
                 }
             }
             steps {
