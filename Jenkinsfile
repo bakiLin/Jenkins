@@ -12,7 +12,7 @@ pipeline {
             steps {
                 sh '''
                 cd source
-                docker build .
+                python3 hello.py
                 '''
             }
         }
