@@ -1,5 +1,4 @@
 pipeline {
-    agent none
     triggers {
         pollSCM '* * * * *'
     }
@@ -8,7 +7,7 @@ pipeline {
             agent { 
                 node {
                     label 'python-agent'
-                    }
+                }
             }
             steps {
                 sh 'python -m py_compile source/hello.py'
@@ -16,24 +15,23 @@ pipeline {
             }
         }
         stage('Deliver') {
-                    agent { 
-                        docker {
-                            image 'cdrx/pyinstaller-linux:python2'
-                        }
-                    }
-                    steps {
-                        dir(path: env.BUILD_ID) {
-                            unstash(name: 'compiled-results')
-
-                            sh "docker run --rm -v ${VOLUME} ${IMAGE} 'pyinstaller -F hello.py'"
-                        }
-                    }
-                    post {
-                        success {
-                            archiveArtifacts "${env.BUILD_ID}/source/dist/hello"
-                            sh "docker run --rm -v ${VOLUME} ${IMAGE} 'rm -rf build dist'"
-                        }
-                    }
+            agent { 
+                node {
+                    label 'pyinstaller-agent'
+                }
+            }
+            steps {
+                dir(path: env.BUILD_ID) {
+                    unstash(name: 'compiled-results')
+                    sh "docker run --rm -v ${VOLUME} ${IMAGE} 'pyinstaller -F hello.py'"
+                }
+            }
+            post {
+                success {
+                    archiveArtifacts "${env.BUILD_ID}/source/dist/hello"
+                    sh "docker run --rm -v ${VOLUME} ${IMAGE} 'rm -rf build dist'"
+                }
+            }
         }
     }
 }
