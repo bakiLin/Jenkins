@@ -1,7 +1,5 @@
 pipeline {
-    agent { 
-        label 'python-agent' 
-    }
+    agent any
 
     triggers {
         pollSCM '* * * * *'
@@ -10,16 +8,17 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh '''
-                cd source
-                python3 hello.py
-                '''
+                echo 'Building..'
             }
         }
-
         stage('Test') {
             steps {
-                sh 'build successful'
+                echo 'Testing..'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying....'
             }
         }
     }
