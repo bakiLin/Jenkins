@@ -11,9 +11,15 @@ pipeline {
         stage('Build') {
             steps {
                 sh '''
-                python --version
-                pip install -r pyinstaller
+                cd source
+                docker build .
                 '''
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'build successful'
             }
         }
     }
