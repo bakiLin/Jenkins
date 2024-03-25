@@ -1,16 +1,14 @@
 pipeline {
-    agent none
-
+    agent {
+        docker {
+            image 'python:3.12.1-alpine3.19' 
+        } 
+    }
+    
     stages {
-        stage('Build') {
-            agent {
-                docker {
-                    image 'bakilin/python_image:latest'
-                }
-            }
+        stage('build') {
             steps {
-                sh 'python -m py_compile hello.py' 
-                stash(name: 'compiled-results', includes: '*.py*')
+                sh 'python --version'
             }
         }
     }
