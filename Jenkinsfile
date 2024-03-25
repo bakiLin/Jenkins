@@ -1,14 +1,13 @@
 pipeline {
     agent {
         docker {
-             image 'alpine' 
-             args '-v $HOME:/home/jenkins'
+             image 'python' 
         }
     }
     stages {
         stage('Test') {
             steps {
-                sh 'node --version'
+                sh 'python --version'
             }
         }
     }
