@@ -1,6 +1,9 @@
 pipeline {
     agent {
-        docker { image 'alpine' }
+        docker {
+             image 'alpine' 
+             args '-v $HOME:/home/jenkins'
+        }
     }
     stages {
         stage('Test') {
