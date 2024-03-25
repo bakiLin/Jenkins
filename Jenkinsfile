@@ -7,24 +7,9 @@ pipeline {
 
     stages {
         stage('Build') {
-            agent {
-                dockerfile {
-                    filename 'Dockerfile'
-                }
-            }
-
             steps {
-                echo 'Building..'
-            }
-        }
-        stage('Test') {
-            steps {
-                echo 'Testing..'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying....'
+                sh 'python -m py_compile hello.py' 
+                stash(name: 'compiled-results', includes: '*.py*')
             }
         }
     }
