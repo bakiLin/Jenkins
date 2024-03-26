@@ -11,6 +11,11 @@ pipeline {
                 pyinstaller --onefile source/hello.py
                 '''
             }
+            post {
+                success {
+                    archiveArtifacts 'dist/hello' 
+                }
+            }
         }
     }
 }
