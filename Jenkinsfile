@@ -11,11 +11,6 @@ pipeline {
                 pyinstaller --onefile source/hello.py
                 '''
             }
-            post {
-                success {
-                    archiveArtifacts(artifacts: '**/*.exe') 
-                }
-            }
         }
     }
 }
