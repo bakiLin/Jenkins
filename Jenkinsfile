@@ -14,7 +14,7 @@ pipeline {
             steps {
                 sh '''
                 docker run --rm hello
-                docker exec -it hello sh -c "echo a && echo b"
+                docker exec sh -c "echo a && echo b"
                 '''
             }
         }
