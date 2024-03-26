@@ -8,13 +8,12 @@ pipeline {
             }
             steps {
                 sh '''
-                pyinstaller --version
                 pyinstaller --onefile source/hello.py
                 '''
             }
             post {
                 success {
-                    archiveArtifacts artifacts: 'dist/hello.exe' 
+                    archiveArtifacts(artifacts: '**/*.exe') 
                 }
             }
         }
