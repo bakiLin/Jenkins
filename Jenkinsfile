@@ -1,12 +1,20 @@
 pipeline {
-    agent {
-        docker 'python:latest' 
-    }
+    agent none
 
     stages {
-        stage('Test') {
+        stage('build') {
             steps {
-                sh 'python --version'
+                sh '''
+                docker build -t hello .
+                '''
+            }
+        }
+
+        stage('run') {
+            steps {
+                sh '''
+                docker run --rm hello
+                '''
             }
         }
     }
