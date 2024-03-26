@@ -20,11 +20,11 @@ pipeline {
 
         stage('test') {
             agent {
-                docker 'python:latest'
+                //docker 'python:latest'
+                docker 'cdrx/pyinstaller-linux:latest'
             }
             steps {
                 sh '''
-                python --version
                 pyinstaller --onefile source/hello.py
                 '''
             }
