@@ -5,11 +5,11 @@ pipeline {
         stage('test') {
             agent {
                 //docker 'cdrx/pyinstaller-linux:latest'
-                docker 'python'
+                dockerfile true
             }
             steps {
                 sh '''
-                python --version
+                pyinstaller --version
                 '''
             }
             // post {
