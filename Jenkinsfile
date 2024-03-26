@@ -4,19 +4,19 @@ pipeline {
     stages {
         stage('test') {
             agent {
-                //docker 'cdrx/pyinstaller-linux:latest'
                 dockerfile true
             }
             steps {
                 sh '''
                 pyinstaller --version
+                pyinstaller --onefile source/hello.py
                 '''
             }
-            // post {
-            //     success {
-            //         archiveArtifacts artifacts: 'dist/hello.exe' 
-            //     }
-            // }
+            post {
+                success {
+                    archiveArtifacts artifacts: 'dist/hello.exe' 
+                }
+            }
         }
     }
 }
