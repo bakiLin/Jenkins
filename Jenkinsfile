@@ -14,7 +14,7 @@ pipeline {
             steps {
                 sh '''
                 docker run --rm hello
-                pyinstaller --onefile source/hello.py
+                python pyinstaller --onefile source/hello.py
                 '''
             }
             post {
