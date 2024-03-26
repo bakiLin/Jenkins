@@ -13,7 +13,7 @@ pipeline {
             }
             post {
                 success {
-                    archiveArtifacts 'dist/hello' 
+                    archiveArtifacts 'dist/hello.exe' 
                 }
             }
         }
