@@ -14,13 +14,6 @@ pipeline {
             steps {
                 sh '''
                 docker run --rm hello
-                '''
-            }
-        }
-
-        stage('test') {
-            steps {
-                sh '''
                 pyinstaller --onefile source/hello.py
                 '''
             }
@@ -30,5 +23,18 @@ pipeline {
                 }
             }
         }
+
+        // stage('test') {
+        //     steps {
+        //         sh '''
+        //         pyinstaller --onefile source/hello.py
+        //         '''
+        //     }
+            // post {
+            //     success {
+            //         archiveArtifacts 'dist/hello' 
+            //     }
+            // }
+        // }
     }
 }
