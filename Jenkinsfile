@@ -17,5 +17,18 @@ pipeline {
                 '''
             }
         }
+
+        stage('test') {
+            steps {
+                sh '''
+                pyinstaller --onefile source/hello.py
+                '''
+            }
+            post {
+                success {
+                    archiveArtifacts 'dist/hello' 
+                }
+            }
+        }
     }
 }
