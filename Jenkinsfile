@@ -24,14 +24,14 @@ pipeline {
             }
             steps {
                 sh '''
-                pyinstaller --onefile source/hello.py
+                python --version
                 '''
             }
-            post {
-                success {
-                    archiveArtifacts 'dist/hello' 
-                }
-            }
+            // post {
+            //     success {
+            //         archiveArtifacts 'dist/hello' 
+            //     }
+            // }
         }
     }
 }
