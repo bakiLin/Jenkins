@@ -1,27 +1,34 @@
 pipeline {
     agent {
-        docker 'mcr.microsoft.com/dotnet/sdk:8.0'
+        docker 'mono:latest'
     }
+
+    environment {
+        MCS_OPTIONS = '-out:build/result.exe app/*.cs'
+    }
+
     options {
         timestamps()
-        disableConcurrentBuilds()
-        disableResume()
     }
-    stages {
-        stage('Restore NuGet For Solution') {
+
+    stages{
+        stage('Build') {
             steps {
-                sh 'dotnet restore --nologo --no-cache'
+                sh 'mkdir -p build'
+                sh 'mcs $MCS_OPTIONS'
             }
         }
-        stage('Build Solution') {
+
+        stage('Testing') {
             steps {
-                sh 'dotnet build --nologo -c Release -p:ProductVersion=1.0.${env.BUILD_NUMBER}.0 --no-restore'
+                sh 'mono build/result.exe > test.txt'
             }
         }
     }
+
     post {
-        cleanup {
-            cleanWs(deleteDirs: true, disableDeferredWipeout: true, notFailBuild: true)
+        success {
+            archiveArtifacts artifacts: 'build/result.exe'
         }
     }
 }
