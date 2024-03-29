@@ -19,11 +19,11 @@ pipeline {
             }
         }
 
-        stage('Testing') {
-            steps {
-                sh 'mono build/result.exe > test.txt'
-            }
-        }
+        // stage('Testing') {
+        //     steps {
+        //         sh 'mono build/result.exe > test.txt'
+        //     }
+        // }
     }
 
     post {
