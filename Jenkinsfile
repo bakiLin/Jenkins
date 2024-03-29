@@ -4,7 +4,7 @@ pipeline {
     }
 
     environment {
-        MCS_OPTIONS = '-out:build/result.exe app/*.cs'
+        MCS_OPTIONS = '-out:build/result.exe hello/*.cs'
     }
 
     options {
