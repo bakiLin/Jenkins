@@ -5,16 +5,21 @@ pipeline {
         disableConcurrentBuilds()
         disableResume()
     }
-    triggers {
-        pollSCM '* * * * *'
-    }
     stages {
-        stage('Test') {
+        stage('Restore NuGet For Solution') {
             steps {
-                sh '''
-                echo "Hello"
-                '''
+                bat "dotnet restore --nologo --no-cache"
             }
+        }
+        stage('Build Solution') {
+            steps {
+                bat "dotnet build --nologo -c Release -p:ProductVersion=1.0.${env.BUILD_NUMBER}.0 --no-restore"
+            }
+        }
+    }
+    post {
+        cleanup {
+            cleanWs(deleteDirs: true, disableDeferredWipeout: true, notFailBuild: true)
         }
     }
 }
