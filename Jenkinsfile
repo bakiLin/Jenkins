@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        dockerfile true
+        docker image 'mcr.microsoft.com/dotnet/sdk:8.0'
     }
     options {
         timestamps()
