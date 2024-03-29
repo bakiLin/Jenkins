@@ -4,7 +4,7 @@ pipeline {
     }
 
     environment {
-        MCS_OPTIONS = '-out:build/result.exe source/*.cs'
+        MCS_OPTIONS = '-out:build/hello.exe source/*.cs'
     }
 
     options {
@@ -22,7 +22,7 @@ pipeline {
 
     post {
         success {
-            archiveArtifacts artifacts: 'build/result.exe'
+            archiveArtifacts artifacts: 'build/hello.exe'
         }
     }
 }
