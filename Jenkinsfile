@@ -4,7 +4,7 @@ pipeline {
     }
 
     environment {
-        MCS_OPTIONS = '-out:build/result.exe hello/*.cs'
+        MCS_OPTIONS = '-out:build/result.exe source/*.cs'
     }
 
     options {
@@ -18,12 +18,6 @@ pipeline {
                 sh 'mcs $MCS_OPTIONS'
             }
         }
-
-        // stage('Testing') {
-        //     steps {
-        //         sh 'mono build/result.exe > test.txt'
-        //     }
-        // }
     }
 
     post {
