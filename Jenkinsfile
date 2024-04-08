@@ -4,18 +4,18 @@ pipeline {
     }
 
     environment {
-        MCS_OPTIONS = '-out:build/hello.exe source/*.cs'
+        bld = '-out:build/hello.exe source/*.cs'
     }
 
     options {
         timestamps()
     }
 
-    stages{
+    stages {
         stage('Build') {
             steps {
                 sh 'mkdir -p build'
-                sh 'mcs $MCS_OPTIONS'
+                sh 'mcs $bld'
             }
         }
     }
